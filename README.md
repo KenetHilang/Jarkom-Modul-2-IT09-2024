@@ -143,7 +143,6 @@ Download Update dan alat alat yg dibutuhkan
 apt-get update
 
 apt-get install bind9 -y
-
 ```
 
 
@@ -239,4 +238,43 @@ $TTL    604800
 @       IN      A       10.68.2.3
 @       IN      AAAA    ::1
 www		IN		CNAME	rujapala.it09.com.
+```
+
+Untuk semua Client
+```sh
+echo nameserver 10.68.2.1 > /etc/resolv.conf
+```
+
+## Nomer 6
+
+```sh
+mkdir /etc/bind/it09/2.68.10.in-addr.arpa
+```
+
+```sh
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it09.com. root.pasopati.it09.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+2.68.10.in-addr.arpa.       IN      NS      pasopati.it09.com.
+5                            IN      PTR     pasopati.it09.com.
+```
+
+### Slaves
+
+
+
+```sh
+zone "sudarsono.it09.com" {
+    type slave;
+    masters { 10.68.2.1; }; //IP Sriwijaya
+    file "/var/lib/bind/sudarsono.it09.com";
+};
 ```
