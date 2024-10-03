@@ -24,6 +24,12 @@
 | GrahamBell  |    eth0       |    10.68.1.4        | 10.68.1.2        |
 | Samaratungga  |    eth0       |    10.68.1.5       | 10.68.1.2        |
 
+## Soal Nomer 1
+Untuk mempersiapkan peperangan World War MMXXIV (Iya sebanyak itu), Sriwijaya membuat dua kotanya menjadi web server yaitu Tanjungkulai, dan Bedahulu, serta Sriwijaya sendiri akan menjadi DNS Master. Kemudian karena merasa terdesak, Majapahit memberikan bantuan dan menjadikan kerajaannya (Majapahit) menjadi DNS Slave. 
+
+## Soal Nomer 2
+Karena para pasukan membutuhkan koordinasi untuk melancarkan serangannya, maka buatlah sebuah domain yang mengarah ke Solok dengan alamat sudarsana.xxxx.com dengan alias www.sudarsana.xxxx.com, dimana xxxx merupakan kode kelompok. Contoh: sudarsana.it01.com.
+
 ### Nusantara Config
 ```sh
 auto eth0
@@ -130,11 +136,25 @@ iface eth0 inet static
 	gateway 10.68.1.2
 ```
 
+## Set Sriwijaya (DNS Master)
 
-## Soal Nomer 2
-Karena para pasukan membutuhkan koordinasi untuk melancarkan serangannya, maka buatlah sebuah domain yang mengarah ke Solok dengan alamat sudarsana.xxxx.com dengan alias www.sudarsana.xxxx.com, dimana xxxx merupakan kode kelompok. Contoh: sudarsana.it01.com.
+Download Update dan alat alat yg dibutuhkan
+```sh
+apt-get update
+
+apt-get install bind9
+
+mkdir /etc/bind/it09
+
+cp /etc/bind/db.local /etc/bind/it09/sudarsono.it09.com
+
+nano /etc/bind/it09
+```
+
 
 ### isi dari folder `/etc/bind/named.conf.local`
+
+Masukkan Teks ini ke dalam file tersebut
 
 ```sh
 zone "sudarsono.it09.com" {
@@ -144,11 +164,61 @@ zone "sudarsono.it09.com" {
 ```
 
 ```sh
+mkdir /etc/bind/it09
+
 cp /etc/bind/db.local /etc/bind/it09/sudarsono.it09.com
 
 nano /etc/bind/it09/sudarsono.it09.com
 ```
 
+
+Masukkan kode ini ke dalam `/etc/bind/it09/sudarsono.it09.com`
+```sh
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sudarsono.it09.com. root.sudarsono.it09.com. (
+                            2         ; Serial
+                       604800         ; Refresh
+                        86400         ; Retry
+                      2419200         ; Expire
+                       604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sudarsono.it09.com.
+@       IN      A       10.68.2.7
+@       IN      AAAA    ::1
+www		IN		CNAME	sudarsono.it09.com.
+
+```
+
+### Shell Solok
+Masukkan IP dari Sriwijaya ke file resolv.conf
 ```sh
 echo nameserver 10.68.2.1 > /etc/resolv.conf
+```
+
+```sh
+zone "pasopati.it09.com" {
+	type master;
+	file "/etc/bind/it09/pasopati.it09.com";
+};
+```
+Masukkan ini ke dalam `/etc/bind/it09/pasopati.it09.com`
+```sh
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it09.com. root.pasopati.it09.com. (
+                            2         ; Serial
+                       604800         ; Refresh
+                        86400         ; Retry
+                      2419200         ; Expire
+                       604800 )       ; Negative Cache TTL
+;
+@       IN      NS      pasopati.it09.com.
+@       IN      A       10.68.2.5
+@       IN      AAAA    ::1
+www		IN		CNAME	pasopati.it09.com.
 ```
