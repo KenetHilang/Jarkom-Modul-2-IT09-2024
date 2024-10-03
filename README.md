@@ -151,38 +151,38 @@ apt-get install bind9 -y
 Masukkan Teks ini ke dalam file tersebut
 
 ```sh
-zone "sudarsono.it09.com" {
+zone "sudarsana.it09.com" {
 	type master;
-	file "/etc/bind/it09/sudarsono.it09.com";
+	file "/etc/bind/it09/sudarsana.it09.com";
 };
 ```
 
 ```sh
 mkdir /etc/bind/it09
 
-cp /etc/bind/db.local /etc/bind/it09/sudarsono.it09.com
+cp /etc/bind/db.local /etc/bind/it09/sudarsana.it09.com
 
-nano /etc/bind/it09/sudarsono.it09.com
+nano /etc/bind/it09/sudarsana.it09.com
 ```
 
 
-Masukkan kode ini ke dalam `/etc/bind/it09/sudarsono.it09.com`
+Masukkan kode ini ke dalam `/etc/bind/it09/sudarsana.it09.com`
 ```sh
 ;
 ; BIND data file for local loopback interface
 ;
 $TTL    604800
-@       IN      SOA     sudarsono.it09.com. root.sudarsono.it09.com. (
+@       IN      SOA     sudarsana.it09.com. root.sudarsana.it09.com. (
                             2         ; Serial
                        604800         ; Refresh
                         86400         ; Retry
                       2419200         ; Expire
                        604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      sudarsono.it09.com.
+@       IN      NS      sudarsana.it09.com.
 @       IN      A       10.68.2.7
 @       IN      AAAA    ::1
-www		IN		CNAME	sudarsono.it09.com.
+www		IN		CNAME	sudarsana.it09.com.
 
 ```
 
@@ -270,12 +270,12 @@ $TTL    604800
 
 ### Master Config
 ```sh
-zone "sudarsono.it09.com" {
+zone "sudarsana.it09.com" {
 	type master;
 	notify yes;
 	also-notify { 10.68.1.1; };
     allow-transfer { 10.68.1.1; };
-	file "/etc/bind/it09/sudarsono.it09.com";
+	file "/etc/bind/it09/sudarsana.it09.com";
 };
 
 zone "pasopati.it09.com" {
@@ -296,10 +296,10 @@ zone "rujapala.it09.com" {
 ### Slaves Config
 
 ```sh
-zone "sudarsono.it09.com" {
+zone "sudarsana.it09.com" {
     type slave;
     masters { 10.68.2.1; }; //IP Sriwijaya
-    file "/var/lib/bind/sudarsono.it09.com";
+    file "/var/lib/bind/sudarsana.it09.com";
 };
 
 zone "pasopati.it09.com" {
