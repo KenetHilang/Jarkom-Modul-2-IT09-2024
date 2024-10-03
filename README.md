@@ -1,9 +1,24 @@
 # Jarkom-Modul-2-IT09-2024
 
+## Angggota
+
 | Anggota | NRP  |
 | ------- | --- |
 | Michael Kenneth Salim | 5027231008 |
 | Tio Axelino | 50272310XX |
+
+## List IP Address
+
+| Nama Kota   | Interface | IP Address | Getaway |
+| ----------- | --------- | ---------- | ------- |
+| Nusantara   |    eth1       |            |         |
+| Tanjungkulai|    eth0       |            |         |
+| Bedahulu    |    eth0       |            |         |
+| Sriwijaya   |    eth0       |            |         |
+| Majapahit   |    eth0       |            |         |
+| Solok       |    eth0       |            |         |
+| Kotalingga  |    eth0       |            |         |
+
 
 ### Nusantara Config
 ```sh
