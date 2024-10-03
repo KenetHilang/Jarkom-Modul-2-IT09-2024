@@ -187,6 +187,7 @@ www		IN		CNAME	sudarsono.it09.com.
 ```
 
 ### Shell Solok
+
 Masukkan IP dari Sriwijaya ke file resolv.conf
 ```sh
 echo nameserver 10.68.2.1 > /etc/resolv.conf
@@ -216,7 +217,7 @@ $TTL    604800
                        604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      pasopati.it09.com.
-@       IN      A       10.68.2.5
+@       IN      A       10.68.2.6
 @       IN      AAAA    ::1
 www		IN		CNAME	pasopati.it09.com.
 ```
@@ -237,7 +238,7 @@ $TTL    604800
 @       IN      NS      rujapala.it09.com.
 @       IN      A       10.68.2.3
 @       IN      AAAA    ::1
-www		IN		CNAME	rujapala.it09.com.
+www	IN	CNAME	rujapala.it09.com.
 ```
 
 Untuk semua Client
@@ -267,14 +268,49 @@ $TTL    604800
 5                            IN      PTR     pasopati.it09.com.
 ```
 
-### Slaves
+### Master Config
+```sh
+zone "sudarsono.it09.com" {
+	type master;
+	notify yes;
+	also-notify { 10.68.1.1; };
+    allow-transfer { 10.68.1.1; };
+	file "/etc/bind/it09/sudarsono.it09.com";
+};
 
+zone "pasopati.it09.com" {
+	type master;
+	notify yes;
+	also-notify { 10.68.1.1; };
+    allow-transfer { 10.68.1.1; };
+	file "/etc/bind/it09/pasopati.it09.com";
+};
 
+zone "rujapala.it09.com" {
+	type master;
+	file "/etc/bind/it09/rujapala.it09.com";
+};
+
+```
+
+### Slaves Config
 
 ```sh
 zone "sudarsono.it09.com" {
     type slave;
     masters { 10.68.2.1; }; //IP Sriwijaya
     file "/var/lib/bind/sudarsono.it09.com";
+};
+
+zone "pasopati.it09.com" {
+    type slave;
+    masters { 10.68.2.1; }; //IP Sriwijaya
+    file "/var/lib/bind/pasopati.it09.com";
+};
+
+zone "rujapala.it09.com" {
+    type slave;
+    masters { 10.68.2.1; }; //IP Sriwijaya
+    file "/var/lib/bind/rujapala.it09.com";
 };
 ```
