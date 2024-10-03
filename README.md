@@ -445,6 +445,10 @@ Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan m
 ## Soal Nomor 12
 Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache.
 
+```sh
+lynx 10.68.2.5/index.php
+```
+
 ## Soal Nomor 13
 Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan Kotalingga, Bedahulu, Tanjungkulai sebagai worker dan Solok sebagai Load Balancer menggunakan apache sebagai web server nya dan load balancer nya.
 

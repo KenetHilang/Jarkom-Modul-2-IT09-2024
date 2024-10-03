@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo nameserver 10.68.2.1 > /etc/resolv.conf
 echo nameserver 10.68.1.1 >> /etc/resolv.conf
 
@@ -8,15 +10,12 @@ cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/it
 
 rm /etc/apache2/sites-enabled/000-default.conf
 
-cat <<EOT > /etc/apache2/sites-available/it09.conf
-<VirtualHost *:8080>
+echo '<VirtualHost *:8080>
 ServerAdmin webmaster@localhost
 DocumentRoot /var/www/html
-</VirtualHost>
-EOT
+</VirtualHost>' > /etc/apache2/sites-available/it09.conf
 
-cat <<EOT > /etc/apache2/ports.conf
-Listen 80
+echo 'Listen 80
 Listen 8080
 
 <IfModule ssl_module>
@@ -25,8 +24,7 @@ Listen 8080
 
 <IfModule mod_gnutls.c>
     Listen 443
-</IfModule>
-EOT
+</IfModule>' > /etc/apache2/ports.conf
 
 a2ensite it09.conf
 
