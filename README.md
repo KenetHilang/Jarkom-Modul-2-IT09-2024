@@ -1,5 +1,9 @@
 # Jarkom-Modul-2-IT09-2024
 
+| Anggota | NRP  |
+| ------- | --- |
+| Michael Kenneth Salim | 5027231008 |
+| Tio Axelino | 50272310XX |
 
 ### Nusantara Config
 ```sh
@@ -43,3 +47,4 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.68.2.2
 ```
+
