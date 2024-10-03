@@ -142,13 +142,8 @@ Download Update dan alat alat yg dibutuhkan
 ```sh
 apt-get update
 
-apt-get install bind9
+apt-get install bind9 -y
 
-mkdir /etc/bind/it09
-
-cp /etc/bind/db.local /etc/bind/it09/sudarsono.it09.com
-
-nano /etc/bind/it09
 ```
 
 
@@ -204,6 +199,10 @@ zone "pasopati.it09.com" {
 	file "/etc/bind/it09/pasopati.it09.com";
 };
 ```
+
+
+### Shell
+
 Masukkan ini ke dalam `/etc/bind/it09/pasopati.it09.com`
 ```sh
 ;
@@ -221,4 +220,23 @@ $TTL    604800
 @       IN      A       10.68.2.5
 @       IN      AAAA    ::1
 www		IN		CNAME	pasopati.it09.com.
+```
+
+Masukkan ini ke dalam `/etc/bind/it09/rujapala.it09.com`
+```sh
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     rujapala.it09.com. root.rujapala.it09.com. (
+                            2         ; Serial
+                       604800         ; Refresh
+                        86400         ; Retry
+                      2419200         ; Expire
+                       604800 )       ; Negative Cache TTL
+;
+@       IN      NS      rujapala.it09.com.
+@       IN      A       10.68.2.3
+@       IN      AAAA    ::1
+www		IN		CNAME	rujapala.it09.com.
 ```
