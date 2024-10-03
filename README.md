@@ -12,6 +12,8 @@
 | Nama Kota   | Interface | IP Address | Getaway |
 | ----------- | --------- | ---------- | ------- |
 | Nusantara   |    eth1       |            |         |
+| 			  |    eth2       |            |         |
+|    		  |    eth3       |            |         |
 | Tanjungkulai|    eth0       |            |         |
 | Bedahulu    |    eth0       |            |         |
 | Sriwijaya   |    eth0       |            |         |
