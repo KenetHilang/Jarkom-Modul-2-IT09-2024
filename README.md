@@ -450,6 +450,8 @@ www     IN      CNAME   pasopati.it09.com.
 ns1     IN      A     10.68.1.1
 panah   IN      NS    ns1
 ```
+### Testing
+![Panah](./Asset/Panah.png)
 
 ## Soal Nomor 10
 Markas juga meminta catatan kapan saja meme brain rot akan dijatuhkan, maka buatlah subdomain baru di subdomain panah yaitu log.panah.pasopati.xxxx.com serta aliasnya www.log.panah.pasopati.xxxx.com yang juga mengarah ke Kotalingga.
@@ -474,8 +476,51 @@ log     IN      A       10.68.2.5
 www.log IN  CNAME   log.panah.pasopati.it09.com.
 ```
 
+### Testing
+![Log](./Asset/Log.png)
+
 ## Soal Nomor 11
 Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan menikmati meme brainrot terbaru, tetapi hanya warga Majapahit saja yang dapat mengakses jaringan luar secara langsung. Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit.
+
+### Setup DNS pada DNS Master (Pochinki)
+
+Edit file `/etc/bind/named.conf.options` menjadi seperti berikut ini
+
+```sh
+options {
+    directory \"/var/cache/bind\";
+
+    // If there is a firewall between you and nameservers you want
+    // to talk to, you may need to fix the firewall to allow multiple
+    // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+    // If your ISP provided one or more IP addresses for stable
+    // nameservers, you probably want to use them as forwarders.
+    // Uncomment the following block, and insert the addresses replacing
+    // the all-0's placeholder.
+
+	forwarders {
+		192.168.122.1;
+	};
+
+    //========================================================================
+    // If BIND logs error messages about the root key being expired,
+    // you will need to update your keys.  See https://www.isc.org/bind-keys
+    //========================================================================
+    //dnssec-validation auto;
+    allow-query {any;};
+
+    auth-nxdomain no;
+    listen-on-v6 { any; };
+}
+```
+
+Merestart service dari bind9
+
+```sh
+service bind9 restart
+```
+
 
 
 ## Soal Nomor 12
