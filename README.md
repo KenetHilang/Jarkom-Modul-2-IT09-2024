@@ -192,6 +192,9 @@ Masukkan IP dari Sriwijaya ke file resolv.conf milik Solok
 echo nameserver 10.68.2.1 > /etc/resolv.conf
 ```
 
+### Testing
+![Testing 1](./Asset/image-1.png)
+
 ## Soal Nomor 3
 Para pasukan juga perlu mengetahui mana titik yang akan diserang, sehingga dibutuhkan domain lain yaitu pasopati.xxxx.com dengan alias www.pasopati.xxxx.com yang mengarah ke Kotalingga.
 
@@ -228,6 +231,9 @@ $TTL    604800
 @       IN      AAAA    ::1
 www		IN		CNAME	pasopati.it09.com.
 ```
+
+### Testing
+![Testing 2](./Asset/image.png)
 
 ## Soal Nomor 4
 Markas pusat meminta dibuatnya domain khusus untuk menaruh informasi persenjataan dan suplai yang tersebar. Informasi dan suplai meme terbaru tersebut mengarah ke Tanjungkulai dan domain yang ingin digunakan adalah rujapala.xxxx.com dengan alias www.rujapala.xxxx.com.
@@ -271,6 +277,9 @@ Restart Bind9
 service bind9 restart
 ```
 
+### Testing
+![Testing 3](./Asset/image-2.png)
+
 ## Soal Nomer 5
 Pastikan domain-domain tersebut dapat diakses oleh seluruh komputer (client) yang berada di Nusantara.
 
@@ -278,6 +287,21 @@ Untuk semua Client
 ```sh
 echo nameserver 10.68.2.1 > /etc/resolv.conf
 ```
+
+### Testing
+
+Pastikan Semua Client dapat mengakses 
+#### GrahamBell
+![GrahamBell](./Asset/Grahambell.png)
+
+#### Mulawarman
+![Mulawarman](./Asset/Mulawarman.png)
+
+#### Samaratungga
+![Samaratungga](./Asset/Samaratungga.png)
+
+#### Srikandi
+![Srikandi](./Asset/Srikandi.png)
 
 ## Nomer 6
 Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui alamat IP domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga (Notes: menggunakan pointer record).
@@ -313,6 +337,9 @@ $TTL    604800
 2.68.10.in-addr.arpa.       IN      NS      pasopati.it09.com.
 5                            IN      PTR     pasopati.it09.com.
 ```
+
+### Testing
+![Nomer 6](./Asset/Nomer6.png)
 
 ## Soal Nomor 7
 Akhir-akhir ini seringkali terjadi serangan brainrot ke DNS Server Utama, sebagai tindakan antisipasi kamu diperintahkan untuk membuat DNS Slave di Majapahit untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke Sriwijaya.
@@ -370,6 +397,10 @@ Restart kedua bind9
 service bind9 restart
 ```
 
+### Testing
+![Mati](./Asset/Mati.png)
+![Testing](./Asset/Testing.png)
+
 ## Soal Nomor 8
 Kamu juga diperintahkan untuk membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu.
 
@@ -392,6 +423,10 @@ $TTL    604800
 www     IN      CNAME   sudarsana.it09.com.
 cakra   IN      A       10.68.2.4
 ```
+
+### Testing
+![chakra](./Asset/Chakra.png)
+
 ## Soal Nomor 9
 Karena terjadi serangan DDOS oleh shikanoko nokonoko koshitantan (NUN), sehingga sistem komunikasinya terhalang. Untuk melindungi warga, kita diperlukan untuk membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain panah.pasopati.xxxx.com dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias www.panah.pasopati.xxxx.com dan mendelegasikan subdomain tersebut ke Majapahit dengan alamat IP menuju radar di Kotalingga.
 
@@ -442,8 +477,10 @@ www.log IN  CNAME   log.panah.pasopati.it09.com.
 ## Soal Nomor 11
 Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan menikmati meme brainrot terbaru, tetapi hanya warga Majapahit saja yang dapat mengakses jaringan luar secara langsung. Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit.
 
+
 ## Soal Nomor 12
 Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache.
+
 
 ```sh
 lynx 10.68.2.5/index.php
