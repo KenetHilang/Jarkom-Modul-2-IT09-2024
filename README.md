@@ -482,7 +482,7 @@ www.log IN  CNAME   log.panah.pasopati.it09.com.
 ## Soal Nomor 11
 Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan menikmati meme brainrot terbaru, tetapi hanya warga Majapahit saja yang dapat mengakses jaringan luar secara langsung. Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit.
 
-### Setup DNS pada DNS Master (Pochinki)
+### Setup DNS pada DNS Master
 
 Edit file `/etc/bind/named.conf.options` menjadi seperti berikut ini
 
@@ -521,18 +521,242 @@ Merestart service dari bind9
 service bind9 restart
 ```
 
-
+### Testing
+![Test](./Asset/Test.png)
 
 ## Soal Nomor 12
 Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache.
 
+### Setup Website pada Kotalingga
+
+Instalasi dependencies yang diperlukan
+
+```sh
+apt-get update
+apt-get install lynx apache2 php libapache2-mod-php7.0 wget unzip -y
+```
+
+Buat file `it09.conf` pada `/etc/apache2/sites-available/`
+
+```sh
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/it09.conf
+```
+
+Hapus file `000-default.conf` pada `/etc/apache2/sites-enabled/`
+
+```sh
+rm /etc/apache2/sites-enabled/000-default.conf
+```
+
+Edit file `it09.conf` pada `/etc/apache2/sites-available/` menjadi seperti berikut ini
+
+```sh
+<VirtualHost *:8080>
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/html
+</VirtualHost>
+```
+
+Tambahkan `Listen 8080` pada `/etc/apache2/ports.conf/` menjadi seperti berikut ini
+
+```sh
+Listen 80
+Listen 8080
+
+<IfModule ssl_module>
+    Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+    Listen 443
+</IfModule>
+```
+
+Nyalakan situs web yang telah di Setup pada `it09.conf`
+
+```sh
+a2ensite it09.conf
+```
+
+Unduh file `index.php`, dan letakkan pada `/var/www/html/`
+
+```sh
+$ mkdir -p /var/www/html/configuration/
+
+$ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O /var/www/html/configuration/lb.zip
+
+$ unzip /var/www/html/configuration/lb.zip -d /var/www/html/configuration/
+
+$ mv /var/www/html/configuration/worker/index.php /var/www/html/
+
+$ rm -rf /var/www/html/configuration/
+```
+
+Nyalakan service apache
+
+```sh
+service apache2 start
+```
+
+### Testing
 
 ```sh
 lynx 10.68.2.5/index.php
 ```
+![tesweb](./Asset/tesweb.png)
 
 ## Soal Nomor 13
 Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan Kotalingga, Bedahulu, Tanjungkulai sebagai worker dan Solok sebagai Load Balancer menggunakan apache sebagai web server nya dan load balancer nya.
+
+### Setup Website pada Kotalingga, Bedahulu, Tanjungkulai
+
+Instalasi dependencies yang diperlukan
+
+```sh
+apt-get update
+apt-get install lynx apache2 php libapache2-mod-php7.0 wget unzip -y
+```
+
+Buat file `it09.conf` pada `/etc/apache2/sites-available/`
+
+```sh
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/it09.conf
+```
+
+Hapus file `000-default.conf` pada `/etc/apache2/sites-enabled/`
+
+```sh
+rm /etc/apache2/sites-enabled/000-default.conf
+```
+
+Edit file `it09.conf` pada `/etc/apache2/sites-available/` menjadi seperti berikut ini
+
+```sh
+<VirtualHost *:8080>
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/html
+</VirtualHost>
+```
+
+Tambahkan `Listen 8080` pada `/etc/apache2/ports.conf/` menjadi seperti berikut ini
+
+```sh
+Listen 80
+Listen 8080
+
+<IfModule ssl_module>
+    Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+    Listen 443
+</IfModule>
+```
+
+Nyalakan situs web yang telah di Setup pada `it09.conf`
+
+```sh
+a2ensite it09.conf
+```
+
+Unduh file `index.php`, dan letakkan pada `/var/www/html/`
+
+```sh
+$ mkdir -p /var/www/html/configuration/
+
+$ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7' -O /var/www/html/configuration/lb.zip
+
+$ unzip /var/www/html/configuration/lb.zip -d /var/www/html/configuration/
+
+$ mv /var/www/html/configuration/worker/index.php /var/www/html/
+
+$ rm -rf /var/www/html/configuration/
+```
+
+Nyalakan service apache
+
+```sh
+service apache2 start
+```
+
+### Setup load balancer pada Solok
+
+Instalasi dependencies yang diperlukan
+
+```sh
+apt-get update
+apt-get install lynx apache2 -y
+```
+
+Nyalakan modul modul yang diperlukan
+
+```sh
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_balancer
+a2enmod lbmethod_byrequests
+```
+
+c. Jalankan service apache
+
+```sh
+service apache2 start
+```
+
+d. Edit file `default-8080.conf` pada `/etc/apache2/sites-available/` menjadi seperti berikut ini
+
+```sh
+<VirtualHost *:8080>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/it02
+
+    ProxyRequests Off
+    <Proxy balancer://mycluster>
+        BalancerMember http://10.68.2.3:8080
+        BalancerMember http://10.68.2.4:8080
+        BalancerMember http://10.68.2.5:8080
+        ProxySet lbmethod=byrequests
+    </Proxy>
+
+    ProxyPass / balancer://mycluster/
+    ProxyPassReverse / balancer://mycluster/
+</VirtualHost>
+```
+
+f. Nyalakan Setup pada `it09.conf`
+
+```sh
+a2ensite it09.conf
+```
+
+Restart service apache
+
+```sh
+service apache2 restart
+```
+
+### Testing
+
+#### Kotalingga
+
+```sh
+lynx 10.68.2.5:8080/index.php
+```
+![tesweb](./Asset/tesweb.png)
+
+#### Bedahulu
+
+```sh
+lynx 10.68.2.4:8080/index.php
+```
+![Bedahuluweb](./Asset/bedahuluweb.png)
+
+#### Tanjungkulai
+
+```sh
+lynx 10.68.2.3:8080/index.php
+```
+![Tanjungkulaiweb](./Asset/Tanjungkulaiwe.png)
 
 ## Soal Nomor 14
 Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya diubah menjadi nginx.
