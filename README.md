@@ -5,7 +5,7 @@
 | Anggota | NRP  |
 | ------- | --- |
 | Michael Kenneth Salim | 5027231008 |
-| Tio Axelino | 50272310XX |
+| Tio Axelino | 5027231065 |
 
 ## List IP Address
 
